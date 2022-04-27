@@ -52,30 +52,42 @@
 			//document.getElementById("currentPage").value = currentPage;
 			$("#currentPage").val(currentPage)
 		   	//document.detailForm.submit();
-			$("form").attr("method" , "POST").attr("action" , "/product/listProduct").submit();
+			$("form").attr("method" , "POST").attr("action" , "/product/listProduct?menu=${menu}").submit();
 		}
 		//===========================================//
 		//==> 추가된부분 : "검색" ,  userId link  Event 연결 및 처리
 		 $(function() {
-			 
+			 	
 			//==> 검색 Event 연결처리부분
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			//==> 1 과 3 방법 조합 : $("tagName.className:filter함수") 사용함. 
 			 $( "td.ct_btn01:contains('검색')" ).on("click" , function() {
 				//Debug..
 				//alert(  $( "td.ct_btn01:contains('검색')" ).html() );
-				fncGetList(1);
+				fncGetUserList(1);
 			});
 			
 			
 			//==> userId LINK Event 연결처리
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			//==> 3 과 1 방법 조합 : $(".className tagName:filter함수") 사용함.
+			
+			
+			<c:if test= "${param.menu=='manage'}" >
 			$( ".ct_list_pop td:nth-child(3)" ).on("click" , function() {
 					//Debug..
 					//alert(  $( this ).text().trim() );
-					self.location ="/product/getProduct?prodNo="+$(this).text().trim();
+					self.location ="/product/updateProduct?prodNo="+$(this).attr("prodNo");
 			});
+			</c:if>
+			
+			<c:if test= "${param.menu=='search'}" >
+			$( ".ct_list_pop td:nth-child(3)" ).on("click" , function() {
+					//Debug..
+					//alert(  $( this ).text().trim() );
+					self.location ="/product/getProduct?prodNo="+$(this).attr("prodNo");
+			});
+			</c:if>
 			
 			//==> UI 수정 추가부분  :  userId LINK Event End User 에게 보일수 있도록 
 			$( ".ct_list_pop td:nth-child(3)" ).css("color" , "red");
@@ -151,7 +163,8 @@
                   <img src="/images/ct_btnbg01.gif" width="17" height="23"/>
                </td>
                <td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-                  <a href="javascript:fncGetList('1');">검색</a>
+                  <!--<a href="javascript:fncGetList('1');">-->
+                  검색</a>
                </td>
                <td width="14" height="23">
                   <img src="/images/ct_btnbg03.gif" width="14" height="23"/>
@@ -170,9 +183,10 @@
    <tr>
       <td class="ct_list_b" width="100">No</td>
       <td class="ct_line02"></td>
-      <td class="ct_list_b" width="150">
-      	상품명</br>
+		<td class="ct_list_b" width="150">
+			상품명<br>
 			<h7 >(id click:상세정보)</h7>
+		</td>
       <td class="ct_line02"></td>
       <td class="ct_list_b" width="150">가격</td>
       <td class="ct_line02"></td>
@@ -231,14 +245,7 @@
 		<tr class="ct_list_pop">
 			<td align="center">${ i }</td>
 			<td></td>
-			
-			<c:if test= "${param.menu=='manage'}" >
-            	<td align="left"><a href="/product/updateProduct?prodNo=${product.prodNo}">${product.prodName}</a></td>
-      		</c:if>
-      		
-      		<c:if test= "${param.menu!='manage'}" >
-          			<td align="left"><a href="/product/getProduct?prodNo=${product.prodNo}">${product.prodName}</a></td>
-            </c:if>
+			<td align="left" prodNo="${product.prodNo}">${product.prodName}</td>						
 			<td></td>
 			<td align="left">${product.price}</td>
 			<td></td>
