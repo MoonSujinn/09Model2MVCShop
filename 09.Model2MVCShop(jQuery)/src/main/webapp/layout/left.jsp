@@ -67,6 +67,12 @@
 				$(window.parent.frames["rightFrame"].document.location).attr("href","/javascript:history()");
 			});
 		 	
+		 	$( ".Depth03:contains('구매이력조회')" ).on("click" , function() {
+				//Debug..
+				//alert(  $( ".Depth03:contains('회원정보조회')" ) );
+		 		$(window.parent.frames["rightFrame"].document.location).attr("href","/product/listPurchase");
+			}); 
+		 	
 		});	
 		 
 	</script>
@@ -147,7 +153,8 @@
 			<c:if test="${ !empty user && user.role == 'user'}">
 			<tr>
 				<td class="Depth03">
-					<a href="/listPurchase.do"  target="rightFrame">구매이력조회</a>
+					<!--<a href="/listPurchase.do"  target="rightFrame">구매이력조회</a>-->
+					구매이력조회
 				</td>
 			</tr>
 			</c:if>
